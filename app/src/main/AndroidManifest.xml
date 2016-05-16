@@ -6,7 +6,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/icon_256"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -19,7 +19,7 @@
         </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".LoginedActivity" />
-        <activity android:name=".IndexActivity"></activity>
+        <activity android:name=".IndexActivity"/>
     </application>
 
 </manifest>

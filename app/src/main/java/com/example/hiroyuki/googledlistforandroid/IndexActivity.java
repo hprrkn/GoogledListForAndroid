@@ -11,7 +11,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.hiroyuki.googledlistforandroid.Const;
 import com.example.hiroyuki.googledlistforandroid.entity.CountOfMonth;
 import com.example.hiroyuki.googledlistforandroid.entity.IndexResult;
 import com.google.gson.Gson;

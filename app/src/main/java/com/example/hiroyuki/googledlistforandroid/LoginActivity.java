@@ -56,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, String responseString) {
                         Toast.makeText(LoginActivity.this, "通信成功なり〜", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, String.valueOf(headers[0]), Toast.LENGTH_SHORT).show();
                         final Gson gson = new Gson();
                         APIResult result = gson.fromJson(responseString, APIResult.class);
                         Intent intent;

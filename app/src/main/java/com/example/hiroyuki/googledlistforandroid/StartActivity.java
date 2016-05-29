@@ -39,13 +39,13 @@ public class StartActivity extends AppCompatActivity {
                 PersistentCookieStore myCookieStore = new PersistentCookieStore(getApplicationContext());
                 List<Cookie> cookies = myCookieStore.getCookies();
                 Intent intent;
-                for (Cookie c : cookies) {
-                    if (c.getName().equals("token")) {
-                        intent = new Intent(v.getContext(), IndexActivity.class);
-                        startActivity(intent);
-                        return;
-                    }
-                }
+//                for (Cookie c : cookies) {
+//                    if (c.getName().equals("token")) {
+//                        intent = new Intent(v.getContext(), IndexActivity.class);
+//                        startActivity(intent);
+//                        return;
+//                    }
+//                }
                 intent = new Intent(v.getContext(), LoginActivity.class);
                 startActivity(intent);
             }

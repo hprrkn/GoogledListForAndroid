@@ -19,7 +19,8 @@
         </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".LoginedActivity" />
-        <activity android:name=".IndexActivity"/>
+        <activity android:name=".IndexActivity" />
+        <activity android:name=".ListActivity"></activity>
     </application>
 
 </manifest>

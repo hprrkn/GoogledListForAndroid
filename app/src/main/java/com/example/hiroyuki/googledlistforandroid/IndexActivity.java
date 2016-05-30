@@ -77,6 +77,7 @@ public class IndexActivity extends AppCompatActivity {
         Button button = (Button) findViewById(R.id.addButton);
         assert button != null;
         final String finalUId = uId;
+        final String finalToken = token;
         button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(final View v) {
@@ -88,12 +89,13 @@ public class IndexActivity extends AppCompatActivity {
                 EditText editMemo = (EditText)findViewById(R.id.add_memo);
                 assert editMemo != null;
                 String getMemo = editMemo.getText().toString();
-                RequestParams params = new RequestParams();
-                params.add("user_id", finalUId);
+                final RequestParams params = new RequestParams();
+                params.add("token", finalToken);
+                params.add("userId", finalUId);
                 params.add("title", getTitle);
                 params.add("memo", getMemo);
                 AsyncHttpClient addClient = new AsyncHttpClient();
-                addClient.post(v.getContext(), ADD_WORD_API_URL, null, new TextHttpResponseHandler() {
+                addClient.post(v.getContext(), ADD_WORD_API_URL, params, new TextHttpResponseHandler() {
                     @Override
                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                         Toast.makeText(IndexActivity.this, "通信失敗なり〜", Toast.LENGTH_SHORT).show();
@@ -101,7 +103,7 @@ public class IndexActivity extends AppCompatActivity {
 
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                        Toast.makeText(IndexActivity.this, "Add successfully!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(IndexActivity.this, params.toString(), Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(v.getContext(), ListActivity.class);
                         intent.putExtra("","");
                         startActivity(intent);

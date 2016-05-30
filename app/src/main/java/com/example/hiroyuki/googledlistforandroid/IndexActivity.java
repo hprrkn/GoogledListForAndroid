@@ -1,19 +1,15 @@
 package com.example.hiroyuki.googledlistforandroid;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hiroyuki.googledlistforandroid.Utils.GoogledListAsyncHttpClient;
 import com.example.hiroyuki.googledlistforandroid.adapter.ComAdapter;
 import com.example.hiroyuki.googledlistforandroid.entity.CountOfMonth;
 import com.example.hiroyuki.googledlistforandroid.entity.IndexResult;
@@ -39,24 +35,9 @@ public class IndexActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
 
-        String uId = "";
-        String token = "";
-        PersistentCookieStore myCookieStore = new PersistentCookieStore(getApplicationContext());
-        List<Cookie> cookies = myCookieStore.getCookies();
-        for (Cookie c : cookies) {
-            if (c.getName().equals("uId")) {
-                uId = c.getValue();
-            } else if (c.getName().equals("token")) {
-                token = c.getValue();
-            }
-        }
 
-        RequestParams params = new RequestParams();
-        params.add("userId", uId);
-        params.add("token", token);
-
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(this, INDEX_API_URL, params, new TextHttpResponseHandler() {
+        GoogledListAsyncHttpClient client = new GoogledListAsyncHttpClient(this);
+        client.get(this, INDEX_API_URL, client.getParams(), new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 Toast.makeText(IndexActivity.this, "index通信失敗なり〜", Toast.LENGTH_SHORT).show();
@@ -75,10 +56,9 @@ public class IndexActivity extends AppCompatActivity {
             }
         });
 
+
         Button button = (Button) findViewById(R.id.addButton);
         assert button != null;
-        final String finalUId = uId;
-        final String finalToken = token;
         button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(final View v) {
@@ -90,13 +70,11 @@ public class IndexActivity extends AppCompatActivity {
                 EditText editMemo = (EditText)findViewById(R.id.add_memo);
                 assert editMemo != null;
                 String getMemo = editMemo.getText().toString();
-                final RequestParams params = new RequestParams();
-                params.add("token", finalToken);
-                params.add("userId", finalUId);
-                params.add("title", getTitle);
-                params.add("memo", getMemo);
-                AsyncHttpClient addClient = new AsyncHttpClient();
-                addClient.post(v.getContext(), ADD_WORD_API_URL, params, new TextHttpResponseHandler() {
+
+                GoogledListAsyncHttpClient addClient = new GoogledListAsyncHttpClient(v.getContext());
+                addClient.getParams().add("title", getTitle);
+                addClient.getParams().add("memo", getMemo);
+                addClient.post(v.getContext(), ADD_WORD_API_URL, addClient.getParams(), new TextHttpResponseHandler() {
                     @Override
                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                         Toast.makeText(IndexActivity.this, "通信失敗なり〜", Toast.LENGTH_SHORT).show();
@@ -104,7 +82,6 @@ public class IndexActivity extends AppCompatActivity {
 
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                        Toast.makeText(IndexActivity.this, params.toString(), Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(v.getContext(), ListActivity.class);
                         intent.putExtra("","");
                         startActivity(intent);

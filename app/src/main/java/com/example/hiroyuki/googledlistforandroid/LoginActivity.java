@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
+import com.example.hiroyuki.googledlistforandroid.Utils.Const;
 import com.example.hiroyuki.googledlistforandroid.entity.APIResult;
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
@@ -50,13 +50,10 @@ public class LoginActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        Toast.makeText(LoginActivity.this, "通信失敗なり〜", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                        Toast.makeText(LoginActivity.this, "通信成功なり〜", Toast.LENGTH_SHORT).show();
-                        Toast.makeText(LoginActivity.this, String.valueOf(headers[0]), Toast.LENGTH_SHORT).show();
                         final Gson gson = new Gson();
                         APIResult result = gson.fromJson(responseString, APIResult.class);
                         Intent intent;
@@ -68,7 +65,6 @@ public class LoginActivity extends AppCompatActivity {
                             myCookieStore.addCookie(newCookie2);
                             intent = new Intent(v.getContext(), IndexActivity.class);
                         } else {
-                            Toast.makeText(LoginActivity.this, "ログイン失敗なり〜", Toast.LENGTH_SHORT).show();
                             intent = new Intent(v.getContext(), LoginActivity.class);
                         }
                         startActivity(intent);

@@ -7,16 +7,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
+import com.example.hiroyuki.googledlistforandroid.Utils.Const;
 import com.example.hiroyuki.googledlistforandroid.Utils.GoogledListAsyncHttpClient;
 import com.example.hiroyuki.googledlistforandroid.adapter.ComAdapter;
 import com.example.hiroyuki.googledlistforandroid.entity.CountOfMonth;
 import com.example.hiroyuki.googledlistforandroid.entity.IndexResult;
 import com.google.gson.Gson;
-import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.PersistentCookieStore;
-import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import java.util.ArrayList;
@@ -35,12 +33,24 @@ public class IndexActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
 
+        // ログインチェック
+        PersistentCookieStore myCookieStore = new PersistentCookieStore(getApplicationContext());
+        List<Cookie> cookies = myCookieStore.getCookies();
+        Boolean loginNG = true;
+        for (Cookie c : cookies) {
+            if (c.getName().equals("token")) {
+                loginNG = false;
+            }
+        }
+        if (loginNG){
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }
 
         GoogledListAsyncHttpClient client = new GoogledListAsyncHttpClient(this);
         client.get(this, INDEX_API_URL, client.getParams(), new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Toast.makeText(IndexActivity.this, "index通信失敗なり〜", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -48,7 +58,6 @@ public class IndexActivity extends AppCompatActivity {
                 final Gson gson = new Gson();
                 IndexResult result = gson.fromJson(responseString, IndexResult.class);
 
-                Toast.makeText(IndexActivity.this, "index成功なり", Toast.LENGTH_SHORT).show();
                 ListView indexListView = (ListView) findViewById(R.id.indexListView);
                 ComAdapter adapter = new ComAdapter(IndexActivity.this, 0, (ArrayList<CountOfMonth>) result.getComList());
                 assert indexListView != null;
@@ -77,7 +86,6 @@ public class IndexActivity extends AppCompatActivity {
                 addClient.post(v.getContext(), ADD_WORD_API_URL, addClient.getParams(), new TextHttpResponseHandler() {
                     @Override
                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                        Toast.makeText(IndexActivity.this, "通信失敗なり〜", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override

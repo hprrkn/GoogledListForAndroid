@@ -1,6 +1,8 @@
 package com.example.hiroyuki.googledlistforandroid.Activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,14 +14,13 @@ import com.example.hiroyuki.googledlistforandroid.Utils.Const;
 import com.example.hiroyuki.googledlistforandroid.entity.APIResult;
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.impl.cookie.BasicClientCookie;
 
 import android.text.TextUtils;
+import android.widget.Toast;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -57,16 +58,19 @@ public class LoginActivity extends AppCompatActivity {
                         APIResult result = gson.fromJson(responseString, APIResult.class);
                         Intent intent;
                         if (TextUtils.equals(result.getLoginOk(), loginTrue)){
-                            PersistentCookieStore myCookieStore = new PersistentCookieStore(v.getContext());
-                            BasicClientCookie newCookie1 = new BasicClientCookie("token",result.getToken());
-                            BasicClientCookie newCookie2 = new BasicClientCookie("uId",result.getUserId());
-                            myCookieStore.addCookie(newCookie1);
-                            myCookieStore.addCookie(newCookie2);
+
+                            // SharedPreferencesにtokenとuserIdを保存
+                            SharedPreferences preferences = getSharedPreferences("LoginData", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putString("token", result.getToken());
+                            editor.putString("uId", result.getUserId());
+                            editor.apply();
                             intent = new Intent(v.getContext(), IndexActivity.class);
+                            startActivity(intent);
+                            finish();
                         } else {
-                            intent = new Intent(v.getContext(), LoginActivity.class);
+                            Toast.makeText(LoginActivity.this, "IDかPWが違います。", Toast.LENGTH_SHORT).show();
                         }
-                        startActivity(intent);
                     }
                 });
             }

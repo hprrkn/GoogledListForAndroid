@@ -1,14 +1,11 @@
 package com.example.hiroyuki.googledlistforandroid.Utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 
-import java.util.List;
-
-import cz.msebera.android.httpclient.cookie.Cookie;
 
 
 /**
@@ -18,20 +15,13 @@ public class GoogledListAsyncHttpClient extends AsyncHttpClient {
     private RequestParams params;
 
     public GoogledListAsyncHttpClient(Context cxt){
-        String uId = "";
-        String token = "";
-        PersistentCookieStore myCookieStore = new PersistentCookieStore(cxt);
-        List<Cookie> cookies = myCookieStore.getCookies();
-        for (Cookie c : cookies) {
-            if (c.getName().equals("uId")) {
-                uId = c.getValue();
-            } else if (c.getName().equals("token")) {
-                token = c.getValue();
-            }
-        }
+
+        SharedPreferences preferences = cxt.getSharedPreferences("LoginData", Context.MODE_PRIVATE);
+        String token = preferences.getString("token", "");
+        String userId = preferences.getString("uId", "");
 
         this.params = new RequestParams();
-        params.add("userId", uId);
+        params.add("userId", userId);
         params.add("token", token);
     }
 

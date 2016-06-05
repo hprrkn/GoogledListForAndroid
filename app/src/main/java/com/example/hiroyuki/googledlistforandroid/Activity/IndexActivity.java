@@ -1,6 +1,8 @@
 package com.example.hiroyuki.googledlistforandroid.Activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -16,16 +18,15 @@ import com.example.hiroyuki.googledlistforandroid.adapter.ComAdapter;
 import com.example.hiroyuki.googledlistforandroid.entity.CountOfMonth;
 import com.example.hiroyuki.googledlistforandroid.entity.IndexResult;
 import com.google.gson.Gson;
-import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.TextHttpResponseHandler;
+
+import org.apache.commons.lang.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.cookie.Cookie;
 
 public class IndexActivity extends AppCompatActivity {
 
@@ -35,17 +36,14 @@ public class IndexActivity extends AppCompatActivity {
         setContentView(R.layout.activity_index);
 
         // ログインチェック
-        PersistentCookieStore myCookieStore = new PersistentCookieStore(getApplicationContext());
-        List<Cookie> cookies = myCookieStore.getCookies();
-        Boolean loginNG = true;
-        for (Cookie c : cookies) {
-            if (c.getName().equals("token")) {
-                loginNG = false;
-            }
-        }
-        if (loginNG){
+        SharedPreferences preferences = getSharedPreferences("LoginData", Context.MODE_PRIVATE);
+        String token = preferences.getString("token", "");
+        String userId = preferences.getString("uId", "");
+        if (StringUtils.isEmpty(token) || StringUtils.isEmpty(userId)){
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
+            finish();
+            return;
         }
 
         GoogledListAsyncHttpClient client = new GoogledListAsyncHttpClient(this);

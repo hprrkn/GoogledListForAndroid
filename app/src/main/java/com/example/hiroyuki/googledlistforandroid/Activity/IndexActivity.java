@@ -19,7 +19,9 @@ import com.google.gson.Gson;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.TextHttpResponseHandler;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
@@ -99,7 +101,9 @@ public class IndexActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, String responseString) {
                         Intent intent = new Intent(v.getContext(), ListActivity.class);
-                        intent.putExtra("","");
+                        Calendar c = Calendar.getInstance();
+                        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM");
+                        intent.putExtra("ym",fmt.format(c.getTime()));
                         startActivity(intent);
                     }
                 });

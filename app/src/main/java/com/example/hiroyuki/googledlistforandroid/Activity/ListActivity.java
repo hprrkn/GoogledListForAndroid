@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.hiroyuki.googledlistforandroid.R;
 import com.example.hiroyuki.googledlistforandroid.Utils.Const;
@@ -25,8 +26,13 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
+        String ym = getIntent().getStringExtra("ym");
+
+        TextView ymTextView = (TextView) findViewById(R.id.ymTextView);
+        ymTextView.setText(ym);
+
         GoogledListAsyncHttpClient client = new GoogledListAsyncHttpClient(this);
-        String url = Const.BASE_GET_LIST_API_URL + getIntent().getStringExtra("ym");
+        String url = Const.BASE_GET_LIST_API_URL + ym;
         client.get(this, url, client.getParams(), new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {

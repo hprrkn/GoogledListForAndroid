@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.hiroyuki.googledlistforandroid.LoginActivity">
+    tools:context=".Activity.LoginActivity">
 
     <TextView
         android:textSize="24dp"

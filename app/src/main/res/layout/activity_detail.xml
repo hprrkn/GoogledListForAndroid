@@ -4,10 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activity.ListActivity">
+    tools:context="com.example.hiroyuki.googledlistforandroid.Activity.DetailActivity">
 
-    <ListView
-        android:id="@+id/wordListView"
+    <TextView
+        android:id="@+id/titleTextView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/memoTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>

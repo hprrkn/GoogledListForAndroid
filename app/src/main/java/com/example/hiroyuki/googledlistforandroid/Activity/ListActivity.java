@@ -1,9 +1,13 @@
-package com.example.hiroyuki.googledlistforandroid;
+package com.example.hiroyuki.googledlistforandroid.Activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.hiroyuki.googledlistforandroid.R;
 import com.example.hiroyuki.googledlistforandroid.Utils.Const;
 import com.example.hiroyuki.googledlistforandroid.Utils.GoogledListAsyncHttpClient;
 import com.example.hiroyuki.googledlistforandroid.adapter.WordListAdapter;
@@ -11,8 +15,6 @@ import com.example.hiroyuki.googledlistforandroid.entity.Word;
 import com.example.hiroyuki.googledlistforandroid.entity.WordList;
 import com.google.gson.Gson;
 import com.loopj.android.http.TextHttpResponseHandler;
-
-import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -37,6 +39,15 @@ public class ListActivity extends AppCompatActivity {
                 ListView wordListView = (ListView) findViewById(R.id.wordListView);
                 WordListAdapter wAdapter = new WordListAdapter(ListActivity.this, 0, wordList.getWordList());
                 wordListView.setAdapter(wAdapter);
+
+                wordListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Intent intent = new Intent(view.getContext(), DetailActivity.class);
+                        intent.putExtra("selectedWord", (Word)parent.getItemAtPosition(position));
+                        startActivity(intent);
+                    }
+                });
             }
         });
     }

@@ -1,4 +1,4 @@
-package com.example.hiroyuki.googledlistforandroid;
+package com.example.hiroyuki.googledlistforandroid.Activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.hiroyuki.googledlistforandroid.R;
 import com.example.hiroyuki.googledlistforandroid.Utils.Const;
 import com.example.hiroyuki.googledlistforandroid.entity.APIResult;
 import com.google.gson.Gson;

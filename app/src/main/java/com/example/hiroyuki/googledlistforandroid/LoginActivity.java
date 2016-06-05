@@ -23,8 +23,6 @@ import android.text.TextUtils;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static String APIUrl = Const.ip + "/android/api/login";
-
     private static final String loginTrue = "true";
 
     String editUserName = "";
@@ -46,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
                 RequestParams params = new RequestParams();
                 params.put("username", editUserName);
                 params.add("password", editPassword);
-                client.post(v.getContext(), APIUrl, params, new TextHttpResponseHandler() {
+                client.post(v.getContext(), Const.APIUrl, params, new TextHttpResponseHandler() {
 
                     @Override
                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {

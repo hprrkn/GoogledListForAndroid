@@ -25,9 +25,6 @@ import cz.msebera.android.httpclient.cookie.Cookie;
 
 public class IndexActivity extends AppCompatActivity {
 
-    private final String INDEX_API_URL = Const.ip + "/android/api/index";
-    private final String ADD_WORD_API_URL = Const.ip + "/android/api/add_word";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +45,7 @@ public class IndexActivity extends AppCompatActivity {
         }
 
         GoogledListAsyncHttpClient client = new GoogledListAsyncHttpClient(this);
-        client.get(this, INDEX_API_URL, client.getParams(), new TextHttpResponseHandler() {
+        client.get(this, Const.INDEX_API_URL, client.getParams(), new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
             }
@@ -83,7 +80,7 @@ public class IndexActivity extends AppCompatActivity {
                 GoogledListAsyncHttpClient addClient = new GoogledListAsyncHttpClient(v.getContext());
                 addClient.getParams().add("title", getTitle);
                 addClient.getParams().add("memo", getMemo);
-                addClient.post(v.getContext(), ADD_WORD_API_URL, addClient.getParams(), new TextHttpResponseHandler() {
+                addClient.post(v.getContext(), Const.ADD_WORD_API_URL, addClient.getParams(), new TextHttpResponseHandler() {
                     @Override
                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                     }

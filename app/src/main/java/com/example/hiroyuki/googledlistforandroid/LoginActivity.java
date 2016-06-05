@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
                 RequestParams params = new RequestParams();
                 params.put("username", editUserName);
                 params.add("password", editPassword);
-                client.post(v.getContext(), Const.APIUrl, params, new TextHttpResponseHandler() {
+                client.post(v.getContext(), Const.LOGIN_API_URL, params, new TextHttpResponseHandler() {
 
                     @Override
                     public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {

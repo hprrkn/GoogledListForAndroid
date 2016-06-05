@@ -2,10 +2,12 @@ package com.example.hiroyuki.googledlistforandroid.entity;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by Hiroyuki on 2016/05/08.
  */
-public class Tag {
+public class Tag implements Serializable{
     private int id;
     @SerializedName("tagname")
     private String tagName;

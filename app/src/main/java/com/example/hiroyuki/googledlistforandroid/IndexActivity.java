@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -59,6 +60,15 @@ public class IndexActivity extends AppCompatActivity {
                 ComAdapter adapter = new ComAdapter(IndexActivity.this, 0, (ArrayList<CountOfMonth>) result.getComList());
                 assert indexListView != null;
                 indexListView.setAdapter(adapter);
+
+                indexListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Intent intent = new Intent(view.getContext(), ListActivity.class);
+                        intent.putExtra("ym", ((CountOfMonth) parent.getItemAtPosition(position)).getMonth());
+                        startActivity(intent);
+                    }
+                });
             }
         });
 

@@ -6,12 +6,8 @@
     android:orientation="vertical"
     tools:context="com.example.hiroyuki.googledlistforandroid.ListActivity">
 
-    <TextView
-        android:textSize="36sp"
-        android:text="2015年05月"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
     <ListView
+        android:id="@+id/wordListView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent" />
 </LinearLayout>

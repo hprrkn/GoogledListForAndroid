@@ -8,5 +8,7 @@ public class Const {
 
     public static final String INDEX_API_URL = ip + "/android/api/index";
     public static final String ADD_WORD_API_URL = ip + "/android/api/add_word";
-    public static final String APIUrl = ip + "/android/api/login";
+    public static final String LOGIN_API_URL = ip + "/android/api/login";
+    public static final String BASE_GET_LIST_API_URL = ip + "/android/api/list/";
+
 }

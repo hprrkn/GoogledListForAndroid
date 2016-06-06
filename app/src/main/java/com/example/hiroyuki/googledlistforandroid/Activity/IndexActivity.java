@@ -1,17 +1,21 @@
 package com.example.hiroyuki.googledlistforandroid.Activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.hiroyuki.googledlistforandroid.R;
 import com.example.hiroyuki.googledlistforandroid.Utils.Const;
@@ -49,9 +53,30 @@ public class IndexActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        // toolbar
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
+        assert toolbar != null;
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.logOutMenu){
+                    new AlertDialog.Builder(toolbar.getContext())
+                            .setTitle("ログアウト確認")
+                            .setMessage("ほんまにログアウトするんか？")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Toast.makeText(IndexActivity.this, "ログアウトしました。", Toast.LENGTH_SHORT).show();                                }
+                            })
+                            .setNegativeButton("Cancel", null)
+                            .show();
+                }
+                return true;
+            }
+        });
 
+        // API通信
         GoogledListAsyncHttpClient client = new GoogledListAsyncHttpClient(this);
         client.get(this, Const.INDEX_API_URL, client.getParams(), new TextHttpResponseHandler() {
             @Override
@@ -80,6 +105,7 @@ public class IndexActivity extends AppCompatActivity {
         });
 
 
+        // button
         Button button = (Button) findViewById(R.id.addButton);
         assert button != null;
         button.setOnClickListener(new View.OnClickListener(){

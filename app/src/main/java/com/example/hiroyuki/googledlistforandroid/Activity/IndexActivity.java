@@ -43,7 +43,7 @@ public class IndexActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("LoginData", Context.MODE_PRIVATE);
         String token = preferences.getString("token", "");
         String userId = preferences.getString("uId", "");
-        if (StringUtils.isEmpty(token) || StringUtils.isEmpty(userId)){
+        if (StringUtils.isEmpty(token) || StringUtils.isEmpty(userId)) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();
@@ -60,14 +60,23 @@ public class IndexActivity extends AppCompatActivity {
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.logOutMenu){
+                if (item.getItemId() == R.id.logOutMenu) {
                     new AlertDialog.Builder(toolbar.getContext())
                             .setTitle("ログアウト確認")
                             .setMessage("ほんまにログアウトするんか？")
                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    Toast.makeText(IndexActivity.this, "ログアウトしました。", Toast.LENGTH_SHORT).show();                                }
+                                    // ログアウト処理 SharedPreferencesのtokenとuserIdを空にしてログインページに飛ばす
+                                    SharedPreferences preferences = getSharedPreferences("LoginData", Context.MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = preferences.edit();
+                                    editor.putString("token", "");
+                                    editor.putString("uId", "");
+                                    editor.apply();
+                                    Intent intent = new Intent(toolbar.getContext(), LoginActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
                             })
                             .setNegativeButton("Cancel", null)
                             .show();
@@ -87,12 +96,12 @@ public class IndexActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
                 final Gson gson = new Gson();
                 IndexResult result = gson.fromJson(responseString, IndexResult.class);
-
                 ListView indexListView = (ListView) findViewById(R.id.indexListView);
-                ComAdapter adapter = new ComAdapter(IndexActivity.this, 0, (ArrayList<CountOfMonth>) result.getComList());
-                assert indexListView != null;
-                indexListView.setAdapter(adapter);
-
+                if (result != null) {
+                    ComAdapter adapter = new ComAdapter(IndexActivity.this, 0, (ArrayList<CountOfMonth>) result.getComList());
+                    assert indexListView != null;
+                    indexListView.setAdapter(adapter);
+                }
                 indexListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -108,15 +117,15 @@ public class IndexActivity extends AppCompatActivity {
         // button
         Button button = (Button) findViewById(R.id.addButton);
         assert button != null;
-        button.setOnClickListener(new View.OnClickListener(){
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 assert findViewById(R.id.add_title) != null;
-                EditText editTitle = (EditText)findViewById(R.id.add_title);
+                EditText editTitle = (EditText) findViewById(R.id.add_title);
                 assert editTitle != null;
                 String getTitle = editTitle.getText().toString();
                 assert findViewById(R.id.add_memo) != null;
-                EditText editMemo = (EditText)findViewById(R.id.add_memo);
+                EditText editMemo = (EditText) findViewById(R.id.add_memo);
                 assert editMemo != null;
                 String getMemo = editMemo.getText().toString();
 
@@ -133,7 +142,7 @@ public class IndexActivity extends AppCompatActivity {
                         Intent intent = new Intent(v.getContext(), ListActivity.class);
                         Calendar c = Calendar.getInstance();
                         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM");
-                        intent.putExtra("ym",fmt.format(c.getTime()));
+                        intent.putExtra("ym", fmt.format(c.getTime()));
                         startActivity(intent);
                     }
                 });

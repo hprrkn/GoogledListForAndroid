@@ -39,6 +39,9 @@ public class IndexActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_index);
+
         // ログインチェック
         SharedPreferences preferences = getSharedPreferences("LoginData", Context.MODE_PRIVATE);
         String token = preferences.getString("token", "");
@@ -50,8 +53,6 @@ public class IndexActivity extends AppCompatActivity {
             return;
         }
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_index);
 
         // toolbar
         final Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
@@ -80,6 +81,10 @@ public class IndexActivity extends AppCompatActivity {
                             })
                             .setNegativeButton("Cancel", null)
                             .show();
+                } else if (item.getItemId() == R.id.tagListMenu){
+                    Intent intent = new Intent(toolbar.getContext(), TagListActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
                 return true;
             }

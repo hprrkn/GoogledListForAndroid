@@ -4,14 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activity.ListActivity">
+    tools:context="com.example.hiroyuki.googledlistforandroid.Activity.TagListActivity">
 
     <TextView
-        android:id="@+id/wordListViewTitleTextView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="TagList" />
+
     <ListView
-        android:id="@+id/wordListView"
+        android:id="@+id/tagListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 </LinearLayout>

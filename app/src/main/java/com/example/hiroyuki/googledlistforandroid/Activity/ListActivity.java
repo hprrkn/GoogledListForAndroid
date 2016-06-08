@@ -12,6 +12,7 @@ import com.example.hiroyuki.googledlistforandroid.R;
 import com.example.hiroyuki.googledlistforandroid.Utils.Const;
 import com.example.hiroyuki.googledlistforandroid.Utils.GoogledListAsyncHttpClient;
 import com.example.hiroyuki.googledlistforandroid.adapter.WordListAdapter;
+import com.example.hiroyuki.googledlistforandroid.entity.Tag;
 import com.example.hiroyuki.googledlistforandroid.entity.Word;
 import com.example.hiroyuki.googledlistforandroid.entity.WordList;
 import com.google.gson.Gson;
@@ -26,13 +27,22 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        String ym = getIntent().getStringExtra("ym");
+        String url;
+        String titleText = "のググったリスト";
+        if (getIntent().getStringExtra("fromTagList") != null) {
+            Tag selectedTag = (Tag) getIntent().getSerializableExtra("selectedTag");
+            titleText = selectedTag.getTagName() + titleText;
+            url = Const.GET_WORD_LIST_BY_TAG + selectedTag.getId();
+        } else {
+            String ym = getIntent().getStringExtra("ym");
+            titleText = ym + titleText;
+            url = Const.BASE_GET_LIST_API_URL + ym;
+        }
+        TextView titleTextView = (TextView) findViewById(R.id.wordListViewTitleTextView);
+        titleTextView.setText(titleText);
 
-        TextView ymTextView = (TextView) findViewById(R.id.ymTextView);
-        ymTextView.setText(ym);
 
         GoogledListAsyncHttpClient client = new GoogledListAsyncHttpClient(this);
-        String url = Const.BASE_GET_LIST_API_URL + ym;
         client.get(this, url, client.getParams(), new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
@@ -50,7 +60,7 @@ public class ListActivity extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Intent intent = new Intent(view.getContext(), DetailActivity.class);
-                        intent.putExtra("selectedWord", (Word)parent.getItemAtPosition(position));
+                        intent.putExtra("selectedWord", (Word) parent.getItemAtPosition(position));
                         startActivity(intent);
                     }
                 });

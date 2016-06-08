@@ -10,5 +10,6 @@ public class Const {
     public static final String ADD_WORD_API_URL = ip + "/android/api/add_word";
     public static final String LOGIN_API_URL = ip + "/android/api/login";
     public static final String BASE_GET_LIST_API_URL = ip + "/android/api/list/";
-
+    public static final String GET_TAG_LIST_API_URL = ip + "/android/api/tags";
+    public static final String GET_WORD_LIST_BY_TAG = ip + "/android/api/words/tag/";
 }
